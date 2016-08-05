@@ -34,7 +34,7 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return InformationsItemType.Special.value();
+        return InformationsItemType.Improtant.value();
     }
 
     public void setDataList(Collection<InformationData> list) {
