@@ -11,7 +11,7 @@ public class MainActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main);
+        setContentView(R.layout.information_main);
         FragmentManager fragmentManager = getSupportFragmentManager();//v4 getSupportFragmentManager( )
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         InformationsFragment firstFragment = new InformationsFragment();
