@@ -7,11 +7,11 @@ import android.view.View;
 /**
  * Created by clevo on 2015/7/27.
  */
-public class SpacesItemDecoration extends RecyclerView.ItemDecoration {
+public class InformationsSpacesItemDecoration extends RecyclerView.ItemDecoration {
 
     private int space;
 
-    public SpacesItemDecoration(int space) {
+    public InformationsSpacesItemDecoration(int space) {
         this.space=space;
     }
 
