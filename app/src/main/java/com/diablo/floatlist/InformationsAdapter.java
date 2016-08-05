@@ -15,15 +15,15 @@ import java.util.List;
  */
 
 public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-    private List<Product> products;
+    private List<InformationData> products;
     private static InformationsItemClickListener itemClickListener;
 
-    public InformationsAdapter(List<Product> list, InformationsItemClickListener clickListener) {
+    public InformationsAdapter(List<InformationData> list, InformationsItemClickListener clickListener) {
         products = list;
         itemClickListener = clickListener;
     }
 
-    public List<Product> getDataList() {
+    public List<InformationData> getDataList() {
         return products;
     }
 
@@ -34,16 +34,16 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
 
     @Override
     public int getItemViewType(int position) {
-        return InformationsItemType.Improtant.value();
+        return InformationsItemType.Special.value();
     }
 
-    public void setDataList(Collection<Product> list) {
+    public void setDataList(Collection<InformationData> list) {
         this.products.clear();
         this.products.addAll(list);
         notifyDataSetChanged();
     }
 
-    public void addAll(Collection<Product> list) {
+    public void addAll(Collection<InformationData> list) {
         int lastIndex = this.products.size();
         if (this.products.addAll(list)) {
             notifyItemRangeInserted(lastIndex, list.size());
@@ -69,15 +69,20 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         View view = null;
         if (i == InformationsItemType.Improtant.value()) {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.information_item, viewGroup, false);
+            return new DemoViewHolder(view);
+        }else {
+            view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.information_error_type, viewGroup, false);
+            return new ErrorViewHolder(view);
         }
-        return new DemoViewHolder(view);
+
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
-        if (viewHolder instanceof DemoViewHolder)
+        if (viewHolder instanceof DemoViewHolder) {
             ((DemoViewHolder) viewHolder).imageView.setImageResource(products.get(position).getImg());
             ((DemoViewHolder) viewHolder).textView.setText(products.get(position).getTitle());
+        }
     }
 
     //viewholder
@@ -100,5 +105,11 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         }
     }
 
+    //viewholder
+    public static class ErrorViewHolder extends RecyclerView.ViewHolder{
 
+        public ErrorViewHolder(View itemView) {
+            super(itemView);
+        }
+    }
 }

@@ -44,7 +44,7 @@ public class InformationsFragment extends Fragment {
     private LRecyclerView recyclerView = null;
     private LRecyclerViewAdapter mLRecyclerViewAdapter = null;
     private boolean isRefresh = false;
-    private List<Product> productList = new ArrayList<Product>();
+    private List<InformationData> productList = new ArrayList<InformationData>();
     private InformationsAdapter adapter;
     private static Activity activity;
 
@@ -117,7 +117,7 @@ public class InformationsFragment extends Fragment {
         recyclerView.setRefreshing(true);
     }
 
-    private void addItems(ArrayList<Product> list) {
+    private void addItems(ArrayList<InformationData> list) {
         adapter.addAll(list);
         mCurrentCounter += list.size();
     }
@@ -152,9 +152,9 @@ public class InformationsFragment extends Fragment {
                 }
 
                 //模拟组装6个数据
-                final ArrayList<Product> newList = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    Product item = new Product(R.mipmap.p1 + i, "shen" + i);
+                final ArrayList<InformationData> newList = new ArrayList<>();
+                for (int i = 0; i < 6; i++) {
+                    InformationData item = new InformationData(R.mipmap.p1 + i, "shen" + i);
                     newList.add(item);
                 }
 
@@ -180,7 +180,7 @@ public class InformationsFragment extends Fragment {
         }.start();
     }
 
-    private void setData(int msg, ArrayList<Product> productList) {
+    private void setData(int msg, ArrayList<InformationData> productList) {
         switch (msg) {
             case REFRESH_SUCCESS:
                 System.out.println("更新数据成功");
@@ -193,7 +193,7 @@ public class InformationsFragment extends Fragment {
         }
     }
 
-    private void refreshOrLoad(ArrayList<Product> products) {
+    private void refreshOrLoad(ArrayList<InformationData> products) {
         if (isRefresh) {
             adapter.clear();
             mCurrentCounter = 0;

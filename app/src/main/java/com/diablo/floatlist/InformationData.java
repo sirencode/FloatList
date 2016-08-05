@@ -3,11 +3,11 @@ package com.diablo.floatlist;
 /**
  * Created by clevo on 2015/7/27.
  */
-public class Product {
+public class InformationData {
     private int img;
     private String title;
 
-    public Product(int img, String title) {
+    public InformationData(int img, String title) {
         this.img = img;
         this.title = title;
     }
