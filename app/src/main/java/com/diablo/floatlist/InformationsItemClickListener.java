@@ -1,11 +1,8 @@
 package com.diablo.floatlist;
 
-import android.view.View;
-
 /**
  * Created by clevo on 2015/7/30.
  */
 public interface InformationsItemClickListener {
-
-    void onItemClick(View view, int position);
+    void onItemClick(InformationData data);
 }

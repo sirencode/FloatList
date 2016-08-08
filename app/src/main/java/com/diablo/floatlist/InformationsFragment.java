@@ -6,10 +6,10 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
@@ -23,100 +23,52 @@ import java.util.List;
 /**
  * Created by Diablo on 16/8/4.
  */
-public class InformationsFragment extends Fragment {
-
-    /**
-     * 服务器端一共多少条数据
-     */
+public class InformationsFragment extends Fragment implements LRecyclerView.LScrollListener,InformationsItemClickListener{
+    //服务器端一共多少条数据
     private static final int TOTAL_COUNTER = 34;
-
-    /**
-     * 每一页展示多少条数据
-     */
+    //每一页展示多少条数据
     private static final int REQUEST_COUNT = 10;
-
-    /**
-     * 已经获取到多少条数据了
-     */
+    //已经获取到多少条数据了
     private static int mCurrentCounter = 0;
-
     private static final int REFRESH_SUCCESS = 1;
     private static final int REFRESH_FILED = 2;
-
-    private LRecyclerView recyclerView = null;
-    private LRecyclerViewAdapter mLRecyclerViewAdapter = null;
+    private Activity activity;
+    private LRecyclerView recyclerView;
+    private LRecyclerViewAdapter mLRecyclerViewAdapter;
     private boolean isRefresh = false;
     private List<InformationData> productList = new ArrayList<InformationData>();
     private InformationsAdapter adapter;
-    private static Activity activity;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View baseView = inflater.inflate(R.layout.information_list, container, false);
-        inintView(baseView);
+        activity = getActivity();
+        inintViews(baseView);
         return baseView;
     }
 
-    private void inintView(View view) {
-        activity = getActivity();
+    private void inintViews(View view) {
         recyclerView = (LRecyclerView) view.findViewById(R.id.recycler);
-        //setLayoutManager
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        //防止item位置互换
         layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         recyclerView.setLayoutManager(layoutManager);
-        InformationsItemClickListener itemClickListener = new InformationsItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Log.e("position", "=" + position);
-                Toast.makeText(getActivity(), productList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
-            }
-        };
-        adapter = new InformationsAdapter(productList, itemClickListener,getActivity());
+        adapter = new InformationsAdapter(productList,getActivity());
+        adapter.setItemClickListener(this);
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(getActivity(), adapter);
         recyclerView.setAdapter(mLRecyclerViewAdapter);
         InformationsSpacesItemDecoration decoration = new InformationsSpacesItemDecoration(16);
         recyclerView.addItemDecoration(decoration);
-        recyclerView.setLScrollListener(new LRecyclerView.LScrollListener() {
+        recyclerView.setLScrollListener(this);
+        recyclerView.setRefreshing(true);
+        ImageView goTop = (ImageView) view.findViewById(R.id.btn_go_top);
+        goTop.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onRefresh() {
-                isRefresh = true;
-                requestData();
-            }
-
-            @Override
-            public void onScrollUp() {
-            }
-
-            @Override
-            public void onScrollDown() {
-            }
-
-            @Override
-            public void onBottom() {
-                LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(recyclerView);
-                if (state == LoadingFooter.State.Loading) {
-                    System.out.println("the state is Loading, just wait..");
-                    return;
-                }
-
-                if (mCurrentCounter < TOTAL_COUNTER) {
-                    // loading more
-                    RecyclerViewStateUtils.setFooterViewState(getActivity(), recyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
-                    requestData();
-                } else {
-                    //the end
-                    RecyclerViewStateUtils.setFooterViewState(getActivity(), recyclerView, REQUEST_COUNT, LoadingFooter.State.TheEnd, null);
-                }
-            }
-
-            @Override
-            public void onScrolled(int distanceX, int distanceY) {
+            public void onClick(View view) {
+                recyclerView.scrollToPosition(0);
             }
         });
-        recyclerView.setRefreshing(true);
     }
 
     private void addItems(ArrayList<InformationData> list) {
@@ -221,5 +173,46 @@ public class InformationsFragment extends Fragment {
         } else {
             RecyclerViewStateUtils.setFooterViewState(activity, recyclerView, REQUEST_COUNT, LoadingFooter.State.NetWorkError, mFooterClick);
         }
+    }
+
+    @Override
+    public void onRefresh() {
+        isRefresh = true;
+        requestData();
+    }
+
+    @Override
+    public void onScrollUp() {
+    }
+
+    @Override
+    public void onScrollDown() {
+    }
+
+    @Override
+    public void onBottom() {
+        LoadingFooter.State state = RecyclerViewStateUtils.getFooterViewState(recyclerView);
+        if (state == LoadingFooter.State.Loading) {
+            System.out.println("the state is Loading, just wait..");
+            return;
+        }
+
+        if (mCurrentCounter < TOTAL_COUNTER) {
+            // loading more
+            RecyclerViewStateUtils.setFooterViewState(getActivity(), recyclerView, REQUEST_COUNT, LoadingFooter.State.Loading, null);
+            requestData();
+        } else {
+            //the end
+            RecyclerViewStateUtils.setFooterViewState(getActivity(), recyclerView, REQUEST_COUNT, LoadingFooter.State.TheEnd, null);
+        }
+    }
+
+    @Override
+    public void onScrolled(int distanceX, int distanceY) {
+    }
+
+    @Override
+    public void onItemClick(InformationData data) {
+        Toast.makeText(getActivity(), data.getTitle(), Toast.LENGTH_SHORT).show();
     }
 }

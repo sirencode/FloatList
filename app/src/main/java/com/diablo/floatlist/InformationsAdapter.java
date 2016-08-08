@@ -20,10 +20,13 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     private static InformationsItemClickListener itemClickListener;
     private Activity activity;
 
-    public InformationsAdapter(List<InformationData> list, InformationsItemClickListener clickListener,Activity activity) {
+    public InformationsAdapter(List<InformationData> list, Activity activity) {
         this.informations = list;
-        this.itemClickListener = clickListener;
         this.activity = activity;
+    }
+
+    public void setItemClickListener(InformationsItemClickListener clickListener) {
+        this.itemClickListener = clickListener;
     }
 
     public List<InformationData> getDataList() {
@@ -71,43 +74,44 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = null;
         if (i != InformationsItemType.InformationAction.value()) {
-            if (i>0 && i<10) {
+            if (i > 0 && i < 10) {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.information_baseitem, viewGroup, false);
                 return new BaseItemViewHolder(view);
-            }else {
+            } else {
                 view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.information_error_type, viewGroup, false);
                 return new ErrorViewHolder(view);
             }
-        }
-        else {
+        } else {
             view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.information_actionitem, viewGroup, false);
             return new ActionViewHolder(view);
         }
-
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, final int position) {
         if (viewHolder instanceof BaseItemViewHolder) {
-            if (informations.get(position).getTitle()!=null) {
+            if (informations.get(position).getTitle() != null) {
                 ((BaseItemViewHolder) viewHolder).title.setText(informations.get(position).getTitle());
             }
-            if (informations.get(position).getContent()!=null){
-                ((BaseItemViewHolder)viewHolder).content.setText(informations.get(position).getContent());
+            if (informations.get(position).getContent() != null) {
+                ((BaseItemViewHolder) viewHolder).content.setText(informations.get(position).getContent());
             }
-        }else {
-            ((ActionViewHolder)viewHolder).actionIcon.setImageDrawable(activity.getResources().getDrawable(R.mipmap.ic_launcher));
+        } else {
+            ((ActionViewHolder) viewHolder).actionIcon.setImageDrawable(activity.getResources().getDrawable(R.mipmap.ic_launcher));
         }
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                itemClickListener.onItemClick(informations.get(position));
+            }
+        });
     }
 
-    //viewholder
-    public static class BaseItemViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
+    public static class BaseItemViewHolder extends RecyclerView.ViewHolder {
         TextView title;
         TextView content;
         TextView data;
         TextView time;
-
 
         public BaseItemViewHolder(View itemView) {
             super(itemView);
@@ -115,25 +119,16 @@ public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
             content = (TextView) itemView.findViewById(R.id.information_item_content);
             data = (TextView) itemView.findViewById(R.id.information_item_createData);
             time = (TextView) itemView.findViewById(R.id.information_item_createTime);
-            itemView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            itemClickListener.onItemClick(v, this.getLayoutPosition());
         }
     }
 
-    //viewholder
-    public static class ErrorViewHolder extends RecyclerView.ViewHolder{
-
+    public static class ErrorViewHolder extends RecyclerView.ViewHolder {
         public ErrorViewHolder(View itemView) {
             super(itemView);
         }
     }
 
-    public static class ActionViewHolder extends RecyclerView.ViewHolder{
-
+    public static class ActionViewHolder extends RecyclerView.ViewHolder {
         private ImageView actionIcon;
 
         public ActionViewHolder(View itemView) {
