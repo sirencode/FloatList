@@ -183,11 +183,11 @@ public class InformationsFragment extends Fragment {
     private void setData(int msg, ArrayList<InformationData> productList) {
         switch (msg) {
             case REFRESH_SUCCESS:
-                System.out.println("更新数据成功");
+                System.out.println("refresh success");
                 refreshOrLoad(productList);
                 break;
             case REFRESH_FILED:
-                System.out.println("更新失败");
+                System.out.println("refresh filed");
                 onRefreshFiled();
                 break;
         }
