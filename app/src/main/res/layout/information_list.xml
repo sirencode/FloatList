@@ -1,4 +1,11 @@
-<com.github.jdsjlzx.recyclerview.LRecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f2f2f2">
+<com.github.jdsjlzx.recyclerview.LRecyclerView
     android:id="@+id/recycler"
     android:layout_width="match_parent"
     android:layout_height="match_parent" />
+
+</FrameLayout>

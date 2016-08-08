@@ -11,10 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
+
 import com.github.jdsjlzx.recyclerview.LRecyclerView;
 import com.github.jdsjlzx.recyclerview.LRecyclerViewAdapter;
 import com.github.jdsjlzx.util.RecyclerViewStateUtils;
 import com.github.jdsjlzx.view.LoadingFooter;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,7 +74,7 @@ public class InformationsFragment extends Fragment {
                 Toast.makeText(getActivity(), productList.get(position).getTitle(), Toast.LENGTH_SHORT).show();
             }
         };
-        adapter = new InformationsAdapter(productList, itemClickListener);
+        adapter = new InformationsAdapter(productList, itemClickListener,getActivity());
         mLRecyclerViewAdapter = new LRecyclerViewAdapter(getActivity(), adapter);
         recyclerView.setAdapter(mLRecyclerViewAdapter);
         InformationsSpacesItemDecoration decoration = new InformationsSpacesItemDecoration(16);
@@ -153,8 +155,11 @@ public class InformationsFragment extends Fragment {
 
                 //模拟组装6个数据
                 final ArrayList<InformationData> newList = new ArrayList<>();
-                for (int i = 0; i < 6; i++) {
-                    InformationData item = new InformationData(R.mipmap.p1 + i, "shen" + i);
+                for (int i = 1; i < 10; i++) {
+                    InformationData item = new InformationData();
+                    item.setType(i);
+                    item.setTitle("Diablo " + i);
+                    item.setContent("qweqwefqewrqewrqewreqwrqewrqewrqwereqwreqwrqewrqwereqwrrweqrewqreqwrqwerqewrqewrweqqqrewqrewqrqwerweqrqwerewqrewqrqewrweqrewqqewrq");
                     newList.add(item);
                 }
 

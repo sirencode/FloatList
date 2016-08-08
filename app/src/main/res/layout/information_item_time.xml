@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginLeft="10dp"
+        android:src="@mipmap/information_time" />
+
+    <TextView
+        android:id="@+id/information_item_createData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="6dp"
+        android:text="2016-08-08"
+        android:textColor="#d2d2d2" />
+
+    <TextView
+        android:id="@+id/information_item_createTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:text="08:55"
+        android:textColor="#d2d2d2" />
+
+</LinearLayout>
