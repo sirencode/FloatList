@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 /**
- * Created by clevo on 2015/7/27.
+ * Created by Diablo on 16/8/10.
  */
 public class InformationsSpacesItemDecoration extends RecyclerView.ItemDecoration {
 

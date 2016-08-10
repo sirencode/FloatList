@@ -1,7 +1,7 @@
 package com.diablo.floatlist;
 
 /**
- * Created by clevo on 2015/7/27.
+ * Created by Diablo on 16/8/10.
  */
 public class InformationData {
 

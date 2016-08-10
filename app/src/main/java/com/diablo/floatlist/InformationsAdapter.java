@@ -12,7 +12,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * Created by clevo on 2015/7/27.
+ * Created by Diablo on 16/8/10.
  */
 
 public class InformationsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
